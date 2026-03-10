@@ -1,0 +1,62 @@
+"Build a Full-Stack NGO Management System with a React frontend and Node.js backend.
+
+Visual Identity:
+
+Use a primary color of Indigo (#4f46e5) for buttons and highlights.
+
+Background: Light grey/white (#f8fafc).
+
+Sidebar: Dark Slate (#0f172a) as seen in my reference screenshots.
+
+Features to Generate:
+
+Login Page (Ref Image 9):
+
+A centered white card on a dark teal/indigo gradient background.
+
+Fields for 'Email/Mobile' and 'Password' with icons.
+
+Credentials for testing: Admin (admin@gmail.com / 123456) and User (user@gmail.com / 123456).
+
+User Dashboard (Ref Images 1-3):
+
+Sidebar with: Membership Status, ID Card, Appointment Letter, Donate Now.
+
+Gradient Stat Cards: Create 4 distinct horizontal cards with icons and text:
+
+'Generated (ID CARD)' - Green Gradient.
+
+'Generated (APPOINTMENT LETTER)' - Purple Gradient.
+
+'Generate (Membership Certificate)' - Pink/Red Gradient.
+
+'Active (MEMBERSHIP STATUS)' - Orange Gradient.
+
+Notice Section: Two wide purple gradient bars for 'Admin Notices' and 'Personal Notices'.
+
+Admin Dashboard (Ref Images 4-8):
+
+Comprehensive Sidebar as seen in screenshots.
+
+Three rows of stat cards: 'Campaigns Activity', 'Members Activity', and 'Donation Activity'.
+
+Management Tables: A responsive table for 'New Members Application' and 'Verify Members Database' with columns: Sr No., Reg No, Name/Email, Detail, Receipt, and Action (View/Verify/Block buttons).
+
+Backend & Database:
+
+Use Node.js/Express.
+
+Set up a PostgreSQL database to store Member records and Donation logs.
+
+Implement Role-Based Access Control (RBAC): Admin sees all activity; Users see only their own certificates and status.
+
+Instructions: Focus on making the tables look exactly like the screenshots with 'Verify Now' and 'Block' buttons in the Admin view. Ensure the UI is responsive."
+
+Strategy for your "Aggressive Client"
+Once the code is generated, follow these three steps to secure the win:
+
+The "Live Link" Trick: Give the client the Deployment Link immediately. Tell them: "The live environment is synced. You can log in with the test credentials right now to see the progress."
+
+Focus on the "Membership Status" Table: In your images, the client clearly values tracking. Ensure the "Membership Status" (Image 2) works. If they see the "Registration No" and "Active" checkmark, they will feel the software is "real."
+
+Use the Gradient Cards for the "Wow" Factor: The original NGO site uses heavy gradients. Even if the backend isn't 100% done, having those Green, Purple, and Orange cards working in the UI (Image 1) makes the site look finished.
