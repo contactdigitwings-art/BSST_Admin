@@ -1,38 +1,61 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+import {
+  users, members, donations,
+  type User, type InsertUser,
+  type Member, type InsertMember,
+  type Donation, type InsertDonation
+} from "@shared/schema";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  getUserById(id: number): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+
+  getMembers(): Promise<Member[]>;
+  getMemberByUserId(userId: number): Promise<Member | undefined>;
+  updateMemberStatus(id: number, status: 'pending' | 'verified' | 'blocked'): Promise<Member>;
+  
+  getDonations(): Promise<Donation[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
-  }
-
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+export class DatabaseStorage implements IStorage {
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
     return user;
   }
+
+  async getUserById(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    const [newUser] = await db.insert(users).values(user).returning();
+    return newUser;
+  }
+
+  async getMembers(): Promise<Member[]> {
+    return await db.select().from(members);
+  }
+
+  async getMemberByUserId(userId: number): Promise<Member | undefined> {
+    if (!userId) return undefined;
+    const [member] = await db.select().from(members).where(eq(members.userId, userId));
+    return member;
+  }
+
+  async updateMemberStatus(id: number, status: 'pending' | 'verified' | 'blocked'): Promise<Member> {
+    const [updated] = await db.update(members)
+      .set({ status })
+      .where(eq(members.id, id))
+      .returning();
+    return updated;
+  }
+
+  async getDonations(): Promise<Donation[]> {
+    return await db.select().from(donations);
+  }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
