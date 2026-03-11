@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/use-auth";
 import { useMyMember } from "@/hooks/use-members";
 import { StatCard } from "@/components/ui/StatCard";
-import { IdCard, FileText, Award, ShieldCheck, AlertCircle, Info, FileWarning } from "lucide-react";
+import { IdCard, FileText, Award, ShieldCheck, AlertCircle, Info, FileWarning, BadgeCheck } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
