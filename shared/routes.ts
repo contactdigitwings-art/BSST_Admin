@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { users, members } from './schema';
+import { users, members, donations } from './schema';
 
 export const errorSchemas = {
   validation: z.object({ message: z.string(), field: z.string().optional() }),
@@ -71,6 +71,13 @@ export const api = {
           totalDonations: z.number(),
           activeMembers: z.number(),
         })
+      }
+    },
+    donations: {
+      method: 'GET' as const,
+      path: '/api/admin/donations' as const,
+      responses: {
+        200: z.array(z.custom<typeof donations.$inferSelect>()),
       }
     }
   }

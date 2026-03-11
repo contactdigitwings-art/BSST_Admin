@@ -103,6 +103,11 @@ export async function registerRoutes(
     });
   });
 
+  app.get(api.admin.donations.path, async (req, res) => {
+    const donations = await storage.getDonations();
+    res.json(donations);
+  });
+
   await seedDatabase();
 
   return httpServer;

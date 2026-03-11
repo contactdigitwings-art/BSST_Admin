@@ -9,6 +9,7 @@ import Login from "@/pages/Login";
 import UserDashboard from "@/pages/UserDashboard";
 import AdminDashboard from "@/pages/AdminDashboard";
 import ManageMembers from "@/pages/ManageMembers";
+import Donations from "@/pages/Donations";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Loader2 } from "lucide-react";
 
@@ -74,7 +75,7 @@ function Router() {
 
       {/* Additional Admin Routes */}
       <Route path="/members">{() => <ProtectedRoute component={ManageMembers} />}</Route>
-      <Route path="/donations">{() => <ProtectedRoute component={() => <Placeholder title="Donations Record" />} />}</Route>
+      <Route path="/donations">{() => <ProtectedRoute component={Donations} />}</Route>
       <Route path="/campaigns">{() => <ProtectedRoute component={() => <Placeholder title="Campaigns Management" />} />}</Route>
       <Route path="/settings">{() => <ProtectedRoute component={() => <Placeholder title="System Settings" />} />}</Route>
 

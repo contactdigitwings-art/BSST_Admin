@@ -11,3 +11,14 @@ export function useAdminStats() {
     },
   });
 }
+
+export function useDonations() {
+  return useQuery({
+    queryKey: [api.admin.donations.path],
+    queryFn: async () => {
+      const res = await fetch(api.admin.donations.path);
+      if (!res.ok) throw new Error("Failed to fetch donations");
+      return api.admin.donations.responses[200].parse(await res.json());
+    },
+  });
+}
