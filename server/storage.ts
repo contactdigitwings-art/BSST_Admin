@@ -14,6 +14,7 @@ export interface IStorage {
 
   getMembers(): Promise<Member[]>;
   getMemberByUserId(userId: number): Promise<Member | undefined>;
+  createMember(member: InsertMember): Promise<Member>;
   updateMemberStatus(id: number, status: 'pending' | 'verified' | 'blocked'): Promise<Member>;
   
   getDonations(): Promise<Donation[]>;
@@ -43,6 +44,11 @@ export class DatabaseStorage implements IStorage {
     if (!userId) return undefined;
     const [member] = await db.select().from(members).where(eq(members.userId, userId));
     return member;
+  }
+
+  async createMember(member: InsertMember): Promise<Member> {
+    const [newMember] = await db.insert(members).values(member).returning();
+    return newMember;
   }
 
   async updateMemberStatus(id: number, status: 'pending' | 'verified' | 'blocked'): Promise<Member> {

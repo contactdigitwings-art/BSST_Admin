@@ -128,8 +128,10 @@ export default function UserDashboard() {
                 <FileWarning className="w-8 h-8 text-slate-400" />
               </div>
               <h3 className="text-xl font-bold text-slate-700">No Membership Record Found</h3>
-              <p className="text-slate-500 mt-2 max-w-md mx-auto">You haven't submitted a membership application yet or your record is not linked. Please contact admin.</p>
-              <Button className="mt-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white">Apply Now</Button>
+              <p className="text-slate-500 mt-2 max-w-md mx-auto">You haven't submitted a membership application yet. Start by applying to join our organization.</p>
+              <a href="/apply-membership">
+                <Button className="mt-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white">Apply for Membership Now</Button>
+              </a>
             </div>
           )}
         </CardContent>

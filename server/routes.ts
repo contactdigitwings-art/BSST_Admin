@@ -72,6 +72,38 @@ export async function registerRoutes(
     res.json(member || null);
   });
 
+  app.post(api.members.apply.path, async (req, res) => {
+    try {
+      const userId = (req.session as any).userId;
+      if (!userId) {
+        return res.status(401).json({ message: "Not authenticated" });
+      }
+
+      const input = api.members.apply.input.parse(req.body);
+      
+      const member = await storage.createMember({
+        userId,
+        name: input.name,
+        email: input.email,
+        detail: input.detail,
+        receipt: input.receipt || null,
+        regNo: `NGO-${Date.now()}`,
+        status: 'pending',
+        idCardGenerated: false,
+        appointmentLetterGenerated: false,
+        certificateGenerated: false
+      });
+
+      res.status(201).json(member);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        res.status(400).json({ message: err.errors[0].message });
+      } else {
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  });
+
   app.patch(api.members.updateStatus.path, async (req, res) => {
     try {
       const input = api.members.updateStatus.input.parse(req.body);

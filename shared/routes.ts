@@ -50,6 +50,20 @@ export const api = {
         200: z.custom<typeof members.$inferSelect>().nullable(),
       }
     },
+    apply: {
+      method: 'POST' as const,
+      path: '/api/members/apply' as const,
+      input: z.object({
+        name: z.string(),
+        email: z.string(),
+        detail: z.string(),
+        receipt: z.string().nullable().optional()
+      }),
+      responses: {
+        201: z.custom<typeof members.$inferSelect>(),
+        400: errorSchemas.validation,
+      }
+    },
     updateStatus: {
       method: 'PATCH' as const,
       path: '/api/members/:id/status' as const,

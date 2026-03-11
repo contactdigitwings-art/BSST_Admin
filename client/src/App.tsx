@@ -13,6 +13,7 @@ import Donations from "@/pages/Donations";
 import IDCard from "@/pages/IDCard";
 import AppointmentLetter from "@/pages/AppointmentLetter";
 import DonateNow from "@/pages/DonateNow";
+import ApplyMembership from "@/pages/ApplyMembership";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Loader2 } from "lucide-react";
 
@@ -75,6 +76,7 @@ function Router() {
       <Route path="/id-card">{() => <ProtectedRoute component={IDCard} />}</Route>
       <Route path="/appointment">{() => <ProtectedRoute component={AppointmentLetter} />}</Route>
       <Route path="/donate">{() => <ProtectedRoute component={DonateNow} />}</Route>
+      <Route path="/apply-membership">{() => <ProtectedRoute component={ApplyMembership} />}</Route>
 
       {/* Additional Admin Routes */}
       <Route path="/members">{() => <ProtectedRoute component={ManageMembers} />}</Route>
