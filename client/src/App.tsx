@@ -10,6 +10,9 @@ import UserDashboard from "@/pages/UserDashboard";
 import AdminDashboard from "@/pages/AdminDashboard";
 import ManageMembers from "@/pages/ManageMembers";
 import Donations from "@/pages/Donations";
+import IDCard from "@/pages/IDCard";
+import AppointmentLetter from "@/pages/AppointmentLetter";
+import DonateNow from "@/pages/DonateNow";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Loader2 } from "lucide-react";
 
@@ -69,9 +72,9 @@ function Router() {
       </Route>
 
       {/* Additional User Routes */}
-      <Route path="/id-card">{() => <ProtectedRoute component={() => <Placeholder title="ID Card Generation" />} />}</Route>
-      <Route path="/appointment">{() => <ProtectedRoute component={() => <Placeholder title="Appointment Letter" />} />}</Route>
-      <Route path="/donate">{() => <ProtectedRoute component={() => <Placeholder title="Make a Donation" />} />}</Route>
+      <Route path="/id-card">{() => <ProtectedRoute component={IDCard} />}</Route>
+      <Route path="/appointment">{() => <ProtectedRoute component={AppointmentLetter} />}</Route>
+      <Route path="/donate">{() => <ProtectedRoute component={DonateNow} />}</Route>
 
       {/* Additional Admin Routes */}
       <Route path="/members">{() => <ProtectedRoute component={ManageMembers} />}</Route>

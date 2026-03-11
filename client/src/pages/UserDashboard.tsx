@@ -107,12 +107,16 @@ export default function UserDashboard() {
               </div>
               
               <div className="flex flex-col gap-3 w-full md:w-auto min-w-[200px]">
-                <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl h-12 shadow-lg shadow-indigo-500/25" disabled={!member.idCardGenerated}>
-                  Download ID Card
-                </Button>
-                <Button variant="outline" className="w-full rounded-xl h-12 border-2 border-indigo-100 text-indigo-700 hover:bg-indigo-50" disabled={!member.appointmentLetterGenerated}>
-                  Appointment Letter
-                </Button>
+                <a href="/id-card">
+                  <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl h-12 shadow-lg shadow-indigo-500/25" disabled={!member.idCardGenerated}>
+                    Download ID Card
+                  </Button>
+                </a>
+                <a href="/appointment">
+                  <Button variant="outline" className="w-full rounded-xl h-12 border-2 border-indigo-100 text-indigo-700 hover:bg-indigo-50" disabled={!member.appointmentLetterGenerated}>
+                    Appointment Letter
+                  </Button>
+                </a>
                 <Button variant="outline" className="w-full rounded-xl h-12 border-2 border-indigo-100 text-indigo-700 hover:bg-indigo-50" disabled={!member.certificateGenerated}>
                   Membership Certificate
                 </Button>
