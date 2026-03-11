@@ -23,6 +23,7 @@ function useLoginMutation() {
         method: api.auth.login.method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
+        credentials: "include",
       });
       if (!res.ok) {
         if (res.status === 401) throw new Error("Invalid email or password");
@@ -42,6 +43,7 @@ function useLogoutMutation() {
     mutationFn: async () => {
       const res = await fetch(api.auth.logout.path, {
         method: api.auth.logout.method,
+        credentials: "include",
       });
       if (!res.ok) throw new Error("Failed to logout");
     },
@@ -56,7 +58,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { data, isLoading, error } = useQuery({
     queryKey: [api.auth.me.path],
     queryFn: async () => {
-      const res = await fetch(api.auth.me.path);
+      const res = await fetch(api.auth.me.path, {
+        credentials: "include",
+      });
       if (res.status === 401) return null;
       if (!res.ok) throw new Error("Failed to fetch user");
       return api.auth.me.responses[200].parse(await res.json());
