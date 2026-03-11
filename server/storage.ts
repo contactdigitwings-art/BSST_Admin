@@ -52,8 +52,16 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateMemberStatus(id: number, status: 'pending' | 'verified' | 'blocked'): Promise<Member> {
+    // When a member is verified, automatically generate their documents
+    const updateData: any = { status };
+    if (status === 'verified') {
+      updateData.idCardGenerated = true;
+      updateData.appointmentLetterGenerated = true;
+      updateData.certificateGenerated = true;
+    }
+    
     const [updated] = await db.update(members)
-      .set({ status })
+      .set(updateData)
       .where(eq(members.id, id))
       .returning();
     return updated;
