@@ -68,7 +68,7 @@ export default function DonateNow() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Total Raised</p>
-                <p className="text-3xl font-display font-bold text-foreground mt-2">$125K+</p>
+                <p className="text-3xl font-display font-bold text-foreground mt-2">₹12.5L+</p>
               </div>
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
                 <TrendingUp className="w-6 h-6 text-white" />
@@ -108,7 +108,7 @@ export default function DonateNow() {
                   className="rounded-lg h-12 font-bold"
                   onClick={() => setAmount(String(amt))}
                 >
-                  ${amt}
+                  ₹{amt.toLocaleString('en-IN')}
                 </Button>
               ))}
             </div>
@@ -117,7 +117,7 @@ export default function DonateNow() {
           {/* Custom Amount */}
           <div className="space-y-4 mb-6">
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">Custom Amount ($)</label>
+              <label className="block text-sm font-medium text-foreground mb-2">Custom Amount (₹ INR)</label>
               <Input
                 type="number"
                 placeholder="Enter amount"
@@ -146,7 +146,7 @@ export default function DonateNow() {
             className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white rounded-xl h-12 font-bold text-lg shadow-lg shadow-red-500/25"
           >
             <Heart className="w-5 h-5 mr-2" />
-            {isSubmitting ? "Processing..." : `Donate $${amount || 0}`}
+            {isSubmitting ? "Processing..." : `Donate ₹${Number(amount || 0).toLocaleString('en-IN')}`}
           </Button>
 
           <p className="text-xs text-muted-foreground text-center mt-4">
