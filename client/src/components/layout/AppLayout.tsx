@@ -5,7 +5,7 @@ import {
   LayoutDashboard,
   Users,
   CreditCard,
-  Settings,
+  Megaphone,
   LogOut,
   FileText,
   BadgeCheck,
@@ -30,8 +30,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     { href: "/", label: "Dashboard Overview", icon: LayoutDashboard },
     { href: "/members", label: "Manage Members", icon: Users },
     { href: "/donations", label: "Donations", icon: CreditCard },
-    { href: "/campaigns", label: "Campaigns", icon: Heart },
-    { href: "/settings", label: "Settings", icon: Settings },
+    { href: "/crowdfunding", label: "Crowdfunding", icon: Megaphone },
   ];
 
   const userLinks = [

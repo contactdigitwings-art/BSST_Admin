@@ -17,7 +17,7 @@ export const members = pgTable("members", {
   name: text("name").notNull(),
   email: text("email").notNull(),
   detail: text("detail").notNull(),
-  receipt: text("receipt"), // URL or reference
+  receipt: text("receipt"),
   status: text("status").notNull().default("pending"), // 'pending', 'verified', 'blocked'
   idCardGenerated: boolean("id_card_generated").default(false),
   appointmentLetterGenerated: boolean("appointment_letter_generated").default(false),
@@ -27,9 +27,22 @@ export const members = pgTable("members", {
 
 export const donations = pgTable("donations", {
   id: serial("id").primaryKey(),
-  amount: integer("amount").notNull(),
+  amount: integer("amount").notNull(), // INR
   donorName: text("donor_name").notNull(),
   date: timestamp("date").defaultNow(),
+});
+
+export const campaigns = pgTable("campaigns", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  category: text("category").notNull().default("general"), // 'healthcare', 'education', 'welfare', 'general'
+  goalAmount: integer("goal_amount").notNull(), // INR
+  raisedAmount: integer("raised_amount").notNull().default(0), // INR
+  status: text("status").notNull().default("active"), // 'active', 'completed', 'paused'
+  startDate: timestamp("start_date").defaultNow(),
+  endDate: timestamp("end_date"),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const insertUserSchema = createInsertSchema(users).omit({ id: true });
@@ -43,3 +56,7 @@ export type Member = typeof members.$inferSelect;
 export const insertDonationSchema = createInsertSchema(donations).omit({ id: true, date: true });
 export type InsertDonation = z.infer<typeof insertDonationSchema>;
 export type Donation = typeof donations.$inferSelect;
+
+export const insertCampaignSchema = createInsertSchema(campaigns).omit({ id: true, createdAt: true });
+export type InsertCampaign = z.infer<typeof insertCampaignSchema>;
+export type Campaign = typeof campaigns.$inferSelect;

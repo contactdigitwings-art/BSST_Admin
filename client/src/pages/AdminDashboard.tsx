@@ -62,7 +62,7 @@ export default function AdminDashboard() {
         />
         <StatCard
           title="Total Donations"
-          value={`$${stats?.totalDonations?.toLocaleString() || 0}`}
+          value={`₹${(stats?.totalDonations || 0).toLocaleString('en-IN')}`}
           icon={<Heart className="w-6 h-6" />}
           gradient="bg-gradient-to-br from-emerald-400 to-teal-600 shadow-emerald-500/30"
         />

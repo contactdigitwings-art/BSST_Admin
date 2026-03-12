@@ -1,10 +1,11 @@
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import {
-  users, members, donations,
+  users, members, donations, campaigns,
   type User, type InsertUser,
   type Member, type InsertMember,
-  type Donation, type InsertDonation
+  type Donation, type InsertDonation,
+  type Campaign, type InsertCampaign,
 } from "@shared/schema";
 
 export interface IStorage {
@@ -16,8 +17,14 @@ export interface IStorage {
   getMemberByUserId(userId: number): Promise<Member | undefined>;
   createMember(member: InsertMember): Promise<Member>;
   updateMemberStatus(id: number, status: 'pending' | 'verified' | 'blocked'): Promise<Member>;
-  
+
   getDonations(): Promise<Donation[]>;
+
+  getCampaigns(): Promise<Campaign[]>;
+  getCampaignById(id: number): Promise<Campaign | undefined>;
+  createCampaign(campaign: InsertCampaign): Promise<Campaign>;
+  updateCampaign(id: number, data: Partial<InsertCampaign>): Promise<Campaign>;
+  deleteCampaign(id: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -52,23 +59,41 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateMemberStatus(id: number, status: 'pending' | 'verified' | 'blocked'): Promise<Member> {
-    // When a member is verified, automatically generate their documents
     const updateData: any = { status };
     if (status === 'verified') {
       updateData.idCardGenerated = true;
       updateData.appointmentLetterGenerated = true;
       updateData.certificateGenerated = true;
     }
-    
-    const [updated] = await db.update(members)
-      .set(updateData)
-      .where(eq(members.id, id))
-      .returning();
+    const [updated] = await db.update(members).set(updateData).where(eq(members.id, id)).returning();
     return updated;
   }
 
   async getDonations(): Promise<Donation[]> {
     return await db.select().from(donations);
+  }
+
+  async getCampaigns(): Promise<Campaign[]> {
+    return await db.select().from(campaigns).orderBy(campaigns.createdAt);
+  }
+
+  async getCampaignById(id: number): Promise<Campaign | undefined> {
+    const [campaign] = await db.select().from(campaigns).where(eq(campaigns.id, id));
+    return campaign;
+  }
+
+  async createCampaign(campaign: InsertCampaign): Promise<Campaign> {
+    const [newCampaign] = await db.insert(campaigns).values(campaign).returning();
+    return newCampaign;
+  }
+
+  async updateCampaign(id: number, data: Partial<InsertCampaign>): Promise<Campaign> {
+    const [updated] = await db.update(campaigns).set(data).where(eq(campaigns.id, id)).returning();
+    return updated;
+  }
+
+  async deleteCampaign(id: number): Promise<void> {
+    await db.delete(campaigns).where(eq(campaigns.id, id));
   }
 }
 

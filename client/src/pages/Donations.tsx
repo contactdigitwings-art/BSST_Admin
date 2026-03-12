@@ -27,7 +27,7 @@ export default function Donations() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Total Donations</p>
-                <p className="text-3xl font-display font-bold text-foreground mt-2">${totalDonations.toLocaleString()}</p>
+                <p className="text-3xl font-display font-bold text-foreground mt-2">₹{totalDonations.toLocaleString('en-IN')}</p>
               </div>
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center shadow-lg shadow-emerald-500/30">
                 <Heart className="w-6 h-6 text-white" />
@@ -55,7 +55,7 @@ export default function Donations() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Average Donation</p>
-                <p className="text-3xl font-display font-bold text-foreground mt-2">${avgDonation.toLocaleString()}</p>
+                <p className="text-3xl font-display font-bold text-foreground mt-2">₹{avgDonation.toLocaleString('en-IN')}</p>
               </div>
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg shadow-purple-500/30">
                 <Heart className="w-6 h-6 text-white" />
@@ -94,7 +94,7 @@ export default function Donations() {
                       <td className="px-6 py-4 font-semibold text-slate-900">{donation.donorName}</td>
                       <td className="px-6 py-4">
                         <Badge className="bg-green-100 text-green-700 hover:bg-green-200 rounded-lg font-bold">
-                          ${donation.amount.toLocaleString()}
+                          ₹{donation.amount.toLocaleString('en-IN')}
                         </Badge>
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-600">

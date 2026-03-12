@@ -14,6 +14,7 @@ import IDCard from "@/pages/IDCard";
 import AppointmentLetter from "@/pages/AppointmentLetter";
 import DonateNow from "@/pages/DonateNow";
 import ApplyMembership from "@/pages/ApplyMembership";
+import Crowdfunding from "@/pages/Crowdfunding";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Loader2 } from "lucide-react";
 
@@ -81,8 +82,7 @@ function Router() {
       {/* Additional Admin Routes */}
       <Route path="/members">{() => <ProtectedRoute component={ManageMembers} />}</Route>
       <Route path="/donations">{() => <ProtectedRoute component={Donations} />}</Route>
-      <Route path="/campaigns">{() => <ProtectedRoute component={() => <Placeholder title="Campaigns Management" />} />}</Route>
-      <Route path="/settings">{() => <ProtectedRoute component={() => <Placeholder title="System Settings" />} />}</Route>
+      <Route path="/crowdfunding">{() => <ProtectedRoute component={Crowdfunding} />}</Route>
 
       <Route component={NotFound} />
     </Switch>
