@@ -104,7 +104,7 @@ function buildLetterHTML(member: any) {
     <div class="trust-name">Bharti Sewa Sadan Trust</div>
     <div class="tagline">Work for cause not for applause...</div>
     <div class="reg-info">
-      <strong>Registration Number:</strong> 15 &nbsp;|&nbsp;
+      <strong>Trust Registration Number:</strong> 15 &nbsp;|&nbsp;
       (Registered U/t Registration Act 21 of 1882, Government of Bihar)<br/>
       <strong>Trust Darpan Id:</strong> BR/2017/0161719 &nbsp;|&nbsp;
       (A Unit of NITI Aayog, Government of India)
@@ -278,7 +278,7 @@ export default function AppointmentLetter() {
                 </h2>
                 <p className="text-[10px] italic text-gray-500 mt-0.5">Work for cause not for applause...</p>
                 <p className="text-[10px] text-gray-600 mt-1 leading-snug">
-                  <span className="font-semibold">Registration Number:</span> 15 &nbsp;|&nbsp;
+                  <span className="font-semibold">Trust Registration Number:</span> 15 &nbsp;|&nbsp;
                   (Registered U/t Registration Act 21 of 1882, Government of Bihar)
                 </p>
                 <p className="text-[10px] text-gray-600">
