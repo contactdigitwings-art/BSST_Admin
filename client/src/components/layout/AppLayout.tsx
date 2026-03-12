@@ -52,7 +52,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             <Heart className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="font-display font-bold text-xl leading-tight">NGO Portal</h1>
+            <h1 className="font-display font-bold text-xl leading-tight">Trust Portal</h1>
             <p className="text-xs text-sidebar-foreground/60">Management System</p>
           </div>
         </div>
@@ -111,7 +111,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Heart className="w-5 h-5 text-white" />
             </div>
-            <h1 className="font-display font-bold text-lg">NGO Portal</h1>
+            <h1 className="font-display font-bold text-lg">Trust Portal</h1>
           </div>
           <Button variant="ghost" size="icon">
             <Menu className="w-6 h-6" />

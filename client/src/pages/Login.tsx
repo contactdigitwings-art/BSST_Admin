@@ -44,7 +44,7 @@ export default function Login() {
             <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30 mb-6">
               <Heart className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-3xl font-display font-bold text-white mb-2">NGO Portal</h1>
+            <h1 className="text-3xl font-display font-bold text-white mb-2">Trust Portal</h1>
             <p className="text-indigo-200">Sign in to manage your membership</p>
           </div>
 
