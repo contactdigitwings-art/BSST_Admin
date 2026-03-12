@@ -106,7 +106,7 @@ function buildLetterHTML(member: any) {
     <div class="reg-info">
       <strong>Registration Number:</strong> 15 &nbsp;|&nbsp;
       (Registered U/t Registration Act 21 of 1882, Government of Bihar)<br/>
-      <strong>NGO Darpan Id:</strong> BR/2017/0161719 &nbsp;|&nbsp;
+      <strong>Trust Darpan Id:</strong> BR/2017/0161719 &nbsp;|&nbsp;
       (A Unit of NITI Aayog, Government of India)
     </div>
   </div>
@@ -272,41 +272,40 @@ export default function AppointmentLetter() {
           <Card className="glass-panel border-0 overflow-hidden shadow-xl">
             <CardContent className="p-0 bg-white">
               {/* HEADER */}
-              <div className="border-b-4 border-double border-[#1a365d] px-10 py-5 text-center">
-                <h2 className="text-2xl font-black tracking-widest text-[#1a365d] uppercase">
+              <div className="border-b-2 border-double border-[#1a365d] px-6 py-3 text-center">
+                <h2 className="text-lg font-black tracking-widest text-[#1a365d] uppercase">
                   Bharti Sewa Sadan Trust
                 </h2>
-                <p className="text-xs italic text-gray-500 mt-1">Work for cause not for applause...</p>
-                <p className="text-[11px] text-gray-600 mt-2 leading-relaxed">
+                <p className="text-[10px] italic text-gray-500 mt-0.5">Work for cause not for applause...</p>
+                <p className="text-[10px] text-gray-600 mt-1 leading-snug">
                   <span className="font-semibold">Registration Number:</span> 15 &nbsp;|&nbsp;
                   (Registered U/t Registration Act 21 of 1882, Government of Bihar)
                 </p>
-                <p className="text-[11px] text-gray-600">
-                  <span className="font-semibold">NGO Darpan Id:</span> BR/2017/0161719 &nbsp;|&nbsp;
+                <p className="text-[10px] text-gray-600">
+                  <span className="font-semibold">Trust Darpan Id:</span> BR/2017/0161719 &nbsp;|&nbsp;
                   (A Unit of NITI Aayog, Government of India)
                 </p>
               </div>
 
               {/* BODY */}
-              <div className="px-12 py-8">
-                <div className="flex justify-between text-sm mb-6">
+              <div className="px-8 py-5">
+                <div className="flex justify-between text-xs mb-4">
                   <span><strong>Ref.:</strong> {refNo}</span>
                   <span><strong>Date:</strong> {formattedDate}</span>
                 </div>
 
-                <h3 className="text-center text-base font-black uppercase tracking-widest underline text-[#1a365d] mb-6">
+                <h3 className="text-center text-xs font-black uppercase tracking-widest underline text-[#1a365d] mb-4">
                   Job Offer / Appointment Letter
                 </h3>
 
-                <p className="font-bold mb-4">Mr/Mrs/Ms {member.name},</p>
+                <p className="font-bold text-xs mb-3">Mr/Mrs/Ms {member.name},</p>
 
-                <div className="space-y-4 text-sm text-gray-800 text-justify leading-relaxed">
+                <div className="space-y-2.5 text-[11px] text-gray-800 text-justify leading-relaxed">
                   <p>
                     We are pleased to offer you the position of <strong>{area}</strong> at{" "}
                     <strong>BHARTI SEWA SADAN TRUST</strong>. This refers to your application and
                     subsequent review with us. We believe your skills and commitment make you an
-                    excellent fit and a valuable addition to our organization. We look forward to
-                    welcoming you to our team.
+                    excellent fit and a valuable addition to our organization.
                   </p>
 
                   <p>
@@ -314,11 +313,8 @@ export default function AppointmentLetter() {
                     Your Registration Number is <strong>{member.regNo}</strong>.
                   </p>
 
-                  <p>
-                    As part of your role with <strong>BHARTI SEWA SADAN TRUST</strong>, your key
-                    responsibilities will be as follows:
-                  </p>
-                  <ul className="list-disc list-inside pl-4 space-y-1">
+                  <p>Key responsibilities:</p>
+                  <ul className="list-disc list-inside pl-3 space-y-0.5">
                     <li>Active participation in the Trust's social welfare and outreach programmes.</li>
                     <li>Supporting healthcare, education, and community development initiatives.</li>
                     <li>Adhering to the Trust's Code of Conduct and Confidentiality Agreement.</li>
@@ -327,31 +323,24 @@ export default function AppointmentLetter() {
 
                   <p>
                     We congratulate you on your appointment and wish you a long and successful
-                    journey with us. We are confident that your contribution will take us further
-                    in our mission towards becoming a world-class social welfare organization. We
-                    assure you of our full support for your professional development and growth.
-                  </p>
-
-                  <p>
-                    Please review the enclosed documents, including the Trust Bylaws and any
-                    applicable agreements, and let us know if you have any questions or concerns.
+                    journey. We assure you of our full support for your professional development.
                   </p>
                 </div>
 
                 {/* Notice Box */}
-                <div className="border border-gray-400 bg-gray-50 rounded px-5 py-3 my-6 text-[11.5px] text-gray-700 space-y-1">
+                <div className="border border-gray-400 bg-gray-50 rounded px-4 py-2 my-4 text-[10px] text-gray-700 space-y-0.5">
                   <p>* Rules as per Trust Bylaws / Committee are applicable.</p>
                   <p>* Trust is currently recruiting for free.</p>
-                  <p># After that we request that you can send a little donation to support our cause.</p>
+                  <p># We request a small donation to support our cause.</p>
                 </div>
 
                 {/* Closing & Signature */}
-                <div className="text-sm space-y-1">
+                <div className="text-[11px] space-y-0.5">
                   <p>Thanking you,</p>
                   <p>From</p>
                   <p className="italic">Always at your service</p>
                 </div>
-                <div className="mt-12 text-sm font-bold space-y-1">
+                <div className="mt-8 text-[11px] font-bold space-y-0.5">
                   <p className="text-gray-400">__________________________</p>
                   <p>DR RAM NARAYAN BHARTI</p>
                   <p>FOUNDER CUM PRESIDENT</p>
@@ -360,27 +349,27 @@ export default function AppointmentLetter() {
               </div>
 
               {/* FOOTER */}
-              <div className="border-t-4 border-double border-[#1a365d] grid grid-cols-3 gap-4 px-6 py-4 text-[10px] text-gray-700 bg-gray-50">
+              <div className="border-t-2 border-double border-[#1a365d] grid grid-cols-3 gap-3 px-5 py-3 text-[9px] text-gray-700 bg-gray-50">
                 <div>
-                  <p className="font-black uppercase text-[9px] tracking-widest text-[#1a365d] border-b border-[#1a365d] pb-1 mb-2">Reg. Address</p>
+                  <p className="font-black uppercase text-[8px] tracking-widest text-[#1a365d] border-b border-[#1a365d] pb-0.5 mb-1.5">Reg. Address</p>
                   <p>Shivpuri, Ward No-9</p>
                   <p>P.O. Araria Dist, Araria</p>
                   <p>Pin: 854311, Bihar, INDIA</p>
                 </div>
                 <div>
-                  <p className="font-black uppercase text-[9px] tracking-widest text-[#1a365d] border-b border-[#1a365d] pb-1 mb-2">Contact</p>
+                  <p className="font-black uppercase text-[8px] tracking-widest text-[#1a365d] border-b border-[#1a365d] pb-0.5 mb-1.5">Contact</p>
                   <p>bhartisewasadantrsut@gmail.com</p>
                   <p>bsstbihar@gmail.com</p>
                   <p>www.bsst.org.in</p>
                   <p>📞 7782833655 | 8825340183</p>
                 </div>
                 <div>
-                  <p className="font-black uppercase text-[9px] tracking-widest text-[#1a365d] border-b border-[#1a365d] pb-1 mb-2">Other Registrations</p>
-                  <p>12A &nbsp;: AACTB3060FE20206</p>
-                  <p>80G &nbsp;: AACTB3060FF20219</p>
-                  <p>CSR &nbsp;: CSR00010028</p>
-                  <p>FCRA : 031050011</p>
-                  <p>LEI &nbsp;&nbsp;: 984500BE2B82A1D66405</p>
+                  <p className="font-black uppercase text-[8px] tracking-widest text-[#1a365d] border-b border-[#1a365d] pb-0.5 mb-1.5">Other Registrations</p>
+                  <p>12A : AACTB3060FE20206</p>
+                  <p>80G : AACTB3060FF20219</p>
+                  <p>CSR : CSR00010028</p>
+                  <p>FCRA: 031050011</p>
+                  <p>LEI : 984500BE2B82A1D66405</p>
                 </div>
               </div>
             </CardContent>
