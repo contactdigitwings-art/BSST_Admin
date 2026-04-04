@@ -109,7 +109,7 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 // 4. Start the server
-  const port = parseInt(process.env.PORT || "5000", 10);
+  const port = process.env.PORT || "5000";
   httpServer.listen(port, () => {
     console.log(`Server started at port: ${port}`);
     console.log(`Visit: http://127.0.0.1:${port}`);
