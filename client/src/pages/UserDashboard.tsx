@@ -61,8 +61,8 @@ export default function UserDashboard() {
         />
         <StatCard
           title="Generate"
-          subtitle="MEMBERSHIP CERTIFICATE"
-          value={member?.certificateGenerated ? "Yes" : "No"}
+          subtitle="80G CERTIFICATE"
+          value={member?.eightyGCertificateGenerated ? "Yes" : "No"}
           icon={<Award className="w-6 h-6" />}
           gradient="bg-gradient-to-br from-pink-500 to-rose-600 shadow-pink-500/30"
         />
@@ -117,9 +117,11 @@ export default function UserDashboard() {
                     Appointment Letter
                   </Button>
                 </a>
-                <Button variant="outline" className="w-full rounded-xl h-12 border-2 border-indigo-100 text-indigo-700 hover:bg-indigo-50" disabled={!member.certificateGenerated}>
-                  Membership Certificate
-                </Button>
+                <a href="/80G-certificate">
+                  <Button variant="outline" className="w-full rounded-xl h-12 border-2 border-indigo-100 text-indigo-700 hover:bg-indigo-50" disabled={!member.eightyGCertificateGenerated}>
+                    80G Certificate
+                  </Button>
+                </a>
               </div>
             </div>
           ) : (

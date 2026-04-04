@@ -1,0 +1,251 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+[1G[0K10:10:30 AM [express] serving on port 5000
+10:10:37 AM [express] GET /api/me 401 in 2ms :: {"message":"Not authenticated"}
+
+
+
+
+
+[1;1H[0J[2m10:11:02 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+
+
+
+
+
+
+[1;1H[0J[2m10:11:46 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m [33m(x2)[39m
+
+
+
+
+
+
+
+[1;1H[0J[2m10:11:48 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/UserDashboard.tsx, /src/index.css[22m
+10:12:48 AM [express] POST /api/login 200 in 18ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+10:13:07 AM [express] POST /api/login 200 in 15ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+10:13:34 AM [express] GET /api/me 200 in 17ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+10:13:34 AM [express] GET /api/members/me 304 in 9ms :: {"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":false,"createdAt":"2026-03-10T13:06:16.510Z"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m10:13:54 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/hooks/use-auth.tsx, /src/index.css[22m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m10:13:54 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/hooks/use-auth.tsx, /src/index.css[22m [33m(x2)[39m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m10:13:55 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/hooks/use-auth.tsx, /src/index.css[22m [33m(x3)[39m
+[2m10:13:58 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/hooks/use-auth.tsx[22m Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m10:13:58 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/UserDashboard.tsx, /src/pages/Login.tsx, /src/components/layout/AppLayout.tsx, /src/App.tsx[22m
+10:14:22 AM [express] GET /api/me 304 in 16ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+10:14:22 AM [express] GET /api/members/me 304 in 3ms :: {"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":false,"createdAt":"2026-03-10T13:06:16.510Z"}
+10:14:30 AM [express] GET /api/me 304 in 2ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+10:14:30 AM [express] GET /api/members/me 304 in 5ms :: {"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":false,"createdAt":"2026-03-10T13:06:16.510Z"}
+10:17:36 AM [express] POST /api/logout 200 in 1ms :: {"message":"Logged out successfully"}
+10:17:36 AM [express] GET /api/members/me 401 in 1ms :: {"message":"Not authenticated"}
+10:17:36 AM [express] GET /api/me 401 in 2ms :: {"message":"Not authenticated"}
+10:17:56 AM [express] POST /api/login 401 in 15ms :: {"message":"Invalid credentials"}
+10:18:13 AM [express] POST /api/login 200 in 12ms :: {"user":{"id":4,"email":"demo@gmail.com","password":"demo123","role":"user","name":"demo user"}}
+10:18:13 AM [express] GET /api/members/me 200 in 2ms
+10:18:36 AM [express] POST /api/logout 200 in 2ms :: {"message":"Logged out successfully"}
+10:18:36 AM [express] GET /api/me 401 in 1ms :: {"message":"Not authenticated"}
+10:18:36 AM [express] GET /api/members/me 401 in 1ms :: {"message":"Not authenticated"}
+10:18:48 AM [express] POST /api/login 401 in 19ms :: {"message":"Invalid credentials"}
+10:19:00 AM [express] POST /api/login 200 in 17ms :: {"user":{"id":1,"email":"admin@gmail.com","password":"123456","role":"admin","name":"Admin User"}}
+10:19:00 AM [express] GET /api/admin/stats 304 in 5ms :: {"totalCampaigns":5,"totalMembers":2,"totalDonations":1700,"activeMembers":2}
+10:19:01 AM [express] GET /api/members 304 in 2ms :: [{"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":false,"createdAt":"2026-03-10T13:06:16.510Z"},{"id":2,"userId":null,"regNo":"NGO-2024-002","name":"Jane Smith","email":"jane@example.com","detail":"New Application","receipt":"RCPT-002","status":"verified","idCardGenerated":false,"appointmentLetterGenerated":false,"certificateGenerated":false,"createdAt":"2026-03-10T13:06:16.514Z"}]
+10:19:12 AM [express] GET /api/admin/donations 304 in 12ms :: [{"id":1,"amount":500,"donorName":"Alice Cooper","date":"2026-03-10T13:06:16.516Z"},{"id":2,"amount":1200,"donorName":"Bob Builder","date":"2026-03-10T13:06:16.516Z"}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m10:20:01 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m10:20:03 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m [33m(x2)[39m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m10:20:05 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/UserDashboard.tsx, /src/index.css[22m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m10:20:08 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/hooks/use-auth.tsx, /src/pages/Donations.tsx, /src/pages/AdminDashboard.tsx, /src/pages/UserDashboard.tsx, /src/pages/ManageMembers.tsx, /src/pages/AppointmentLetter.tsx, /src/pages/IDCard.tsx[22m
+[2m10:20:11 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [33mhmr invalidate [39m[2m/src/hooks/use-auth.tsx[22m Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+[2m10:20:11 AM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/UserDashboard.tsx, /src/pages/Login.tsx, /src/components/layout/AppLayout.tsx, /src/App.tsx[22m

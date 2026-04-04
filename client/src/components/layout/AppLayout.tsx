@@ -37,6 +37,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     { href: "/", label: "Membership Status", icon: BadgeCheck },
     { href: "/id-card", label: "ID Card", icon: Users },
     { href: "/appointment", label: "Appointment Letter", icon: FileText },
+    { href: "/80G-certificate", label: "80G Certificate", icon: BadgeCheck },
     { href: "/donate", label: "Donate Now", icon: Heart },
   ];
 

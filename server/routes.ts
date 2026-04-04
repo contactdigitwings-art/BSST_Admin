@@ -4,6 +4,7 @@ import session from "express-session";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
+import { insertDonationSchema } from "@shared/schema";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -21,11 +22,41 @@ export async function registerRoutes(
     try {
       const input = api.auth.login.input.parse(req.body);
       const user = await storage.getUserByEmail(input.email);
-      if (!user || user.password !== input.password) {
+      if (!user) {
+        return res.status(401).json({ message: "Invalid credentials" });
+      }
+      // Compare plaintext password with stored password (handles both hashed and plaintext)
+      const isPasswordValid = await storage.comparePassword(input.password, user.password, user.id);
+      if (!isPasswordValid) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
       (req.session as any).userId = user.id;
-      res.json({ user });
+      // Don't send hashed password to client
+      const { password, ...userWithoutPassword } = user;
+      res.json({ user: userWithoutPassword });
+    } catch (err) {
+      if (err instanceof z.ZodError) res.status(400).json({ message: err.errors[0].message });
+      else res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post(api.auth.register.path, async (req, res) => {
+    try {
+      const input = api.auth.register.input.parse(req.body);
+      const existingUser = await storage.getUserByEmail(input.email);
+      if (existingUser) {
+        return res.status(400).json({ message: "User already exists" });
+      }
+      const user = await storage.createUser({
+        email: input.email,
+        password: input.password,
+        name: input.name,
+        role: 'user',
+      });
+      (req.session as any).userId = user.id;
+      // Don't send hashed password to client
+      const { password, ...userWithoutPassword } = user;
+      res.status(201).json({ user: userWithoutPassword });
     } catch (err) {
       if (err instanceof z.ZodError) res.status(400).json({ message: err.errors[0].message });
       else res.status(500).json({ message: "Internal server error" });
@@ -37,7 +68,9 @@ export async function registerRoutes(
     if (!userId) return res.status(401).json({ message: "Not authenticated" });
     const user = await storage.getUserById(userId);
     if (!user) return res.status(401).json({ message: "User not found" });
-    res.json({ user });
+    // Don't send hashed password to client
+    const { password, ...userWithoutPassword } = user;
+    res.json({ user: userWithoutPassword });
   });
 
   app.post(api.auth.logout.path, (req, res) => {
@@ -56,64 +89,135 @@ export async function registerRoutes(
     res.json(member || null);
   });
 
-  app.post(api.members.apply.path, async (req, res) => {
-    try {
-      const userId = (req.session as any).userId;
-      if (!userId) return res.status(401).json({ message: "Not authenticated" });
-      const input = api.members.apply.input.parse(req.body);
-      const member = await storage.createMember({
-        userId,
-        name: input.name,
-        email: input.email,
-        detail: input.detail,
-        receipt: input.receipt || null,
-        regNo: `BSST-${Date.now()}`,
-        status: 'pending',
-        idCardGenerated: false,
-        appointmentLetterGenerated: false,
-        certificateGenerated: false,
-      });
-      res.status(201).json(member);
-    } catch (err) {
-      if (err instanceof z.ZodError) res.status(400).json({ message: err.errors[0].message });
-      else res.status(500).json({ message: "Internal server error" });
-    }
-  });
+  // routes.ts
 
-  app.patch(api.members.updateStatus.path, async (req, res) => {
-    try {
-      const input = api.members.updateStatus.input.parse(req.body);
-      const member = await storage.updateMemberStatus(Number(req.params.id), input.status);
-      if (!member) return res.status(404).json({ message: "Member not found" });
-      res.json(member);
-    } catch (err) {
-      if (err instanceof z.ZodError) res.status(400).json({ message: err.errors[0].message });
-      else res.status(500).json({ message: "Internal server error" });
-    }
-  });
+app.post(api.members.apply.path, async (req, res) => {
+  try {
+    const userId = (req.session as any).userId;
+    if (!userId) return res.status(401).json({ message: "Not authenticated" });
 
-  // ── ADMIN STATS ──────────────────────────────────────────────────────────
-  app.get(api.admin.stats.path, async (_req, res) => {
-    const [membersList, donationsList, campaignsList] = await Promise.all([
-      storage.getMembers(),
-      storage.getDonations(),
-      storage.getCampaigns(),
-    ]);
-    res.json({
-      totalCampaigns: campaignsList.length,
-      totalMembers: membersList.length,
-      totalDonations: donationsList.reduce((acc, d) => acc + d.amount, 0),
-      activeMembers: membersList.filter(m => m.status === 'verified').length,
+    console.log('req.body:', req.body); // Debug log
+
+    // 1. Validate the input
+    const input = req.body;
+
+    // 2. Map 'input.name' (from Zod) to 'fullName' (Database Column)
+    const member = await storage.createMember({
+      userId,
+      fullName: input.name,  
+      email: input.email,
+      phone: input.phone,
+      gender: input.gender,
+      age: input.age,
+      address: input.address,
+      projectArea: input.projectArea,
+      regNo: `BSST-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+      date: new Date().toLocaleDateString(),
+      status: 'pending',
+      idCardGenerated: false,
+      appointmentLetterGenerated: false,
     });
-  });
 
-  app.get(api.admin.donations.path, async (_req, res) => {
-    res.json(await storage.getDonations());
-  });
+    res.status(201).json(member);
+  } catch (err) {
+    console.error('Error in apply:', err); // Debug log
+    if (err instanceof z.ZodError) {
+      res.status(400).json({ message: err.errors[0].message });
+    } else {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+});
+
+  // Update status and "unlock" the generation of letters
+app.patch(api.members.updateStatus.path, async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const { status } = api.members.updateStatus.input.parse(req.body);
+
+    const updateData: any = { status };
+    
+    // If admin verifies, we can automatically enable card generation
+    if (status === 'verified') {
+      updateData.idCardGenerated = true;
+      updateData.appointmentLetterGenerated = true;
+    }
+
+    const member = await storage.updateMemberStatus(id, updateData);
+    if (!member) return res.status(404).json({ message: "Member not found" });
+    res.json(member);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to update member" });
+  }
+});
+app.post('/api/donations', async (req, res) => {
+  try {
+    console.log("Received donation request:", req.body); // Debug log
+    // 1. Validate the input using our shared schema
+    const input = insertDonationSchema.parse(req.body);
+    const userId = (req.session as any).userId;
+
+    // 2. Use member details from request if provided, otherwise look up from session
+    let memberId = input.memberId;
+    let regNo = input.regNo;
+    let email = input.email;
+    let phone = input.phone;
+
+    if (!memberId && userId) {
+      // Fallback: look up member from session
+      const member = await storage.getMemberByUserId(userId);
+      if (member) {
+        memberId = member.id;
+        regNo = member.regNo;
+        email = member.email;
+        phone = member.phone;
+      }
+    }
+
+    // 3. Prepare data for Drizzle (Database)
+    const donationData = {
+      amount: input.amount,
+      donorName: input.donorName,
+      panCardNumber: input.panCardNumber,
+      details: input.details,
+      campaignId: input.campaignId,
+      memberId: memberId,
+      regNo: regNo,
+      email: email,
+      phone: phone,
+      paymentId: input.paymentId,
+      eightyGCertificateGenerated: input.eightyGCertificateGenerated || !!memberId, // Automatically true if linked to a member
+    };
+
+    // 4. Validate against the DB insert schema
+    const validatedData = insertDonationSchema.parse(donationData);
+    const newDonation = await storage.createDonation(validatedData);
+
+    res.status(201).json(newDonation);
+  } catch (err) {
+    // This will print the actual DB error in your terminal
+    console.error("DONATION_ERROR:", err); 
+    
+    if (err instanceof z.ZodError) {
+      res.status(400).json({ message: err.errors[0].message });
+    } else {
+      res.status(500).json({ message: "Internal server error: Database sync failed." });
+    }
+  }
+}); 
+
+ // server/routes.ts
+
+
 
   // ── CAMPAIGNS ─────────────────────────────────────────────────────────────
   app.get('/api/campaigns', async (_req, res) => {
     res.json(await storage.getCampaigns());
+  });
+
+  app.get('/api/campaigns/frontend', async (_req, res) => {
+    res.json(await storage.getCampaignsFrontend());
   });
 
   app.post('/api/campaigns', async (req, res) => {
@@ -169,7 +273,40 @@ export async function registerRoutes(
     res.json({ message: "Campaign deleted" });
   });
 
-  await seedDatabase();
+  // ── ADMIN ────────────────────────────────────────────────────────────────
+  app.get('/api/admin/donations', async (req, res) => {
+    const userId = (req.session as any).userId;
+    if (!userId) return res.status(401).json({ message: "Not authenticated" });
+    
+    const user = await storage.getUserById(userId);
+    if (!user || user.role !== 'admin') return res.status(403).json({ message: "Admin access required" });
+    
+    res.json(await storage.getDonations());
+  });
+
+  app.get('/api/admin/stats', async (req, res) => {
+    const userId = (req.session as any).userId;
+    if (!userId) return res.status(401).json({ message: "Not authenticated" });
+    
+    const user = await storage.getUserById(userId);
+    if (!user || user.role !== 'admin') return res.status(403).json({ message: "Admin access required" });
+    
+    const members = await storage.getMembers();
+    const donations = await storage.getDonations();
+    const totalMembers = members.length;
+    const totalDonations = donations.reduce((sum, d) => sum + d.amount, 0);
+    res.json({
+      totalMembers,
+      totalDonations,
+    });
+  });
+
+  try {
+    await seedDatabase();
+    console.log("✅ Database seeded");
+  } catch (err) {
+    console.error("Seed failed (ignored):", err);
+  }
   return httpServer;
 }
 
@@ -179,14 +316,36 @@ async function seedDatabase() {
 
   const existingUsers = await db.select().from(users);
   if (existingUsers.length === 0) {
-    const adminUser = await storage.createUser({ email: "admin@gmail.com", password: "123456", name: "Admin User", role: "admin" });
-    const regularUser = await storage.createUser({ email: "user@gmail.com", password: "123456", name: "John Doe", role: "user" });
+    const adminUser = await storage.createUser({ 
+      email: "admin@gmail.com", 
+      password: "123456", 
+      name: "Admin User", 
+      role: "admin" 
+    });
+    const regularUser = await storage.createUser({ 
+      email: "user@gmail.com", 
+      password: "123456", 
+      name: "John Doe", 
+      role: "user" 
+    });
 
     await db.insert(members).values([
-      { userId: regularUser.id, regNo: "BSST-2024-001", name: "John Doe", email: "user@gmail.com", detail: "Regular Member", receipt: "RCPT-001", status: "verified", idCardGenerated: true, appointmentLetterGenerated: true, certificateGenerated: true },
-      { userId: null, regNo: "BSST-2024-002", name: "Jane Smith", email: "jane@example.com", detail: "New Application", receipt: "RCPT-002", status: "pending", idCardGenerated: false, appointmentLetterGenerated: false, certificateGenerated: false },
+      { 
+        userId: regularUser.id, 
+        regNo: "BSST-2024-001", 
+        fullName: "John Doe", 
+        email: "user@gmail.com", 
+        phone: "9876543210",
+        gender: "Male",
+        age: 30,
+        address: "123 Street, Bihar",
+        projectArea: "Education",
+        date: new Date().toLocaleDateString(),
+        status: "verified", 
+        idCardGenerated: true, 
+        appointmentLetterGenerated: true 
+      },
     ]);
-
     await db.insert(donations).values([
       { amount: 5000, donorName: "Alice Cooper" },
       { amount: 12000, donorName: "Bob Builder" },

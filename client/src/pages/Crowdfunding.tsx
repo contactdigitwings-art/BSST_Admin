@@ -136,6 +136,18 @@ export default function Crowdfunding() {
     else createMutation.mutate(payload);
   }
 
+ const { data: donations = [], isLoading: isLoadingDonations } = useQuery<any[]>({
+  queryKey: ["/api/admin/donations"],
+});
+
+// Filter out donations where campaignId is null or undefined
+const crowdfundingDonations = donations.filter(d => d.campaignId !== null && d.campaignId !== undefined);
+
+const getCampaignTitle = (id?: number) => {
+  // Since we filtered, we know 'id' exists, but we keep the check for safety
+  return campaigns.find(c => c.id === id)?.title || "Unknown Campaign";
+};
+
   // Summary stats
   const totalGoal = campaigns.reduce((a, c) => a + c.goalAmount, 0);
   const totalRaised = campaigns.reduce((a, c) => a + c.raisedAmount, 0);
@@ -381,6 +393,77 @@ export default function Crowdfunding() {
           })}
         </div>
       )}
+      {/* --- DONATIONS HISTORY TABLE --- */}
+      <div className="pt-10">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+            <TrendingUp className="w-5 h-5 text-indigo-600" />
+          </div>
+          <h2 className="text-2xl font-display font-bold text-foreground">Campaign Donations</h2>
+        </div>
+
+        <Card className="glass-panel border-0 overflow-hidden">
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-slate-50/50 text-[10px] font-black uppercase tracking-widest text-muted-foreground border-b border-slate-100">
+                  <tr>
+                    <th className="px-6 py-4">Payment ID</th>
+                    <th className="px-6 py-4">Donor Details</th>
+                    <th className="px-6 py-4">Campaign Info</th>
+                    <th className="px-6 py-4 text-right">Amount</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {isLoadingDonations ? (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-12 text-center text-muted-foreground italic">
+                        Loading donation records...
+                      </td>
+                    </tr>
+                  ) : crowdfundingDonations.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-12 text-center text-muted-foreground italic">
+                        No campaign donations found.
+                      </td>
+                    </tr>
+                  ) : (
+                    crowdfundingDonations.map((donation) => (
+                      <tr key={donation.id} className="hover:bg-slate-50/30 transition-colors">
+                        <td className="px-6 py-4">
+                          <code className="text-[10px] bg-slate-100 px-2 py-1 rounded text-indigo-600 font-bold">
+                            {donation.paymentId || "N/A"}
+                          </code>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex flex-col">
+                            <span className="font-bold text-foreground">{donation.donorName}</span>
+                            <span className="text-[10px] text-muted-foreground">{donation.email}</span>
+                            <span className="text-[10px] text-muted-foreground">{donation.phone}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex flex-col">
+                            <span className="font-semibold text-indigo-600">
+                              {getCampaignTitle(donation.campaignId)}
+                            </span>
+                            <span className="text-[10px] text-muted-foreground font-medium uppercase">
+                              ID: {donation.campaignId || "Global"}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-right font-black text-foreground">
+                          {inr(donation.amount)}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

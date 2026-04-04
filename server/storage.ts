@@ -1,5 +1,6 @@
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import * as bcrypt from "bcrypt";
 import {
   users, members, donations, campaigns,
   type User, type InsertUser,
@@ -12,12 +13,15 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   getUserById(id: number): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUserPassword(id: number, hashedPassword: string): Promise<void>;
+  comparePassword(plainPassword: string, storedPassword: string, userId: number): Promise<boolean>;
 
   getMembers(): Promise<Member[]>;
   getMemberByUserId(userId: number): Promise<Member | undefined>;
   createMember(member: InsertMember): Promise<Member>;
-  updateMemberStatus(id: number, status: 'pending' | 'verified' | 'blocked'): Promise<Member>;
+  updateMemberStatus(id: number, updateData: Partial<Member>): Promise<Member>;
 
+  createDonation(donation: InsertDonation): Promise<Donation>;
   getDonations(): Promise<Donation[]>;
 
   getCampaigns(): Promise<Campaign[]>;
@@ -39,8 +43,31 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(user: InsertUser): Promise<User> {
-    const [newUser] = await db.insert(users).values(user).returning();
+    // Hash password with bcrypt (salt rounds: 10)
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    const userWithHashedPassword = { ...user, password: hashedPassword };
+    const [newUser] = await db.insert(users).values(userWithHashedPassword).returning();
     return newUser;
+  }
+
+  async updateUserPassword(id: number, hashedPassword: string): Promise<void> {
+    await db.update(users).set({ password: hashedPassword }).where(eq(users.id, id));
+  }
+
+  async comparePassword(plainPassword: string, storedPassword: string, userId: number): Promise<boolean> {
+    // Check if password is already hashed (bcrypt hashes start with $2)
+    if (storedPassword.startsWith('$2')) {
+      return await bcrypt.compare(plainPassword, storedPassword);
+    } else {
+      // Plaintext password - compare directly
+      if (plainPassword === storedPassword) {
+        // Hash the password and update the database
+        const hashedPassword = await bcrypt.hash(plainPassword, 10);
+        await this.updateUserPassword(userId, hashedPassword);
+        return true;
+      }
+      return false;
+    }
   }
 
   async getMembers(): Promise<Member[]> {
@@ -58,19 +85,38 @@ export class DatabaseStorage implements IStorage {
     return newMember;
   }
 
-  async updateMemberStatus(id: number, status: 'pending' | 'verified' | 'blocked'): Promise<Member> {
-    const updateData: any = { status };
-    if (status === 'verified') {
-      updateData.idCardGenerated = true;
-      updateData.appointmentLetterGenerated = true;
-      updateData.certificateGenerated = true;
+  async updateMemberStatus(id: number, updateData: Partial<Member>): Promise<Member> {
+    const [updated] = await db
+      .update(members)
+      .set(updateData)
+      .where(eq(members.id, id))
+      .returning();
+
+    if (!updated) {
+      throw new Error(`Member with id ${id} not found`);
     }
-    const [updated] = await db.update(members).set(updateData).where(eq(members.id, id)).returning();
+
     return updated;
+  }
+
+  async createDonation(donation: InsertDonation): Promise<Donation> {
+    const [newDonation] = await db.insert(donations).values(donation).returning();
+
+    if (newDonation.memberId) {
+      await db.update(members)
+        .set({ eightyGCertificateGenerated: true })
+        .where(eq(members.id, newDonation.memberId));
+    }
+
+    return newDonation;
   }
 
   async getDonations(): Promise<Donation[]> {
     return await db.select().from(donations);
+  }
+
+  async getCampaignsFrontend(): Promise<Campaign[]> {
+    return await db.select().from(campaigns).where(eq(campaigns.status, "active")).orderBy(campaigns.createdAt);
   }
 
   async getCampaigns(): Promise<Campaign[]> {

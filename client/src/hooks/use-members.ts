@@ -38,7 +38,12 @@ export function useUpdateMemberStatus() {
       return api.members.updateStatus.responses[200].parse(await res.json());
     },
     onSuccess: () => {
+      // 1. Refresh the Admin's list
       queryClient.invalidateQueries({ queryKey: [api.members.list.path] });
+      
+      // 2. IMPORTANT: Refresh the User's personal dashboard data
+      // This ensures the buttons unlock immediately for the user
+      queryClient.invalidateQueries({ queryKey: [api.members.getMine.path] });
     },
   });
 }

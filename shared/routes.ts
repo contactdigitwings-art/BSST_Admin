@@ -19,6 +19,15 @@ export const api = {
         401: errorSchemas.unauthorized,
       }
     },
+    register: {
+      method: 'POST' as const,
+      path: '/api/register' as const,
+      input: z.object({ email: z.string(), password: z.string(), name: z.string() }),
+      responses: {
+        201: z.object({ user: z.custom<typeof users.$inferSelect>() }),
+        400: errorSchemas.validation,
+      }
+    },
     me: {
       method: 'GET' as const,
       path: '/api/me' as const,
@@ -50,28 +59,39 @@ export const api = {
         200: z.custom<typeof members.$inferSelect>().nullable(),
       }
     },
-    apply: {
-      method: 'POST' as const,
-      path: '/api/members/apply' as const,
-      input: z.object({
-        name: z.string(),
-        email: z.string(),
-        detail: z.string(),
-        receipt: z.string().nullable().optional()
-      }),
-      responses: {
-        201: z.custom<typeof members.$inferSelect>(),
-        400: errorSchemas.validation,
-      }
-    },
+    // @shared/routes.ts
+
+apply: {
+  method: 'POST' as const,
+  path: '/api/members/apply' as const,
+  input: z.object({
+    name: z.string().min(1),        // Frontend sends 'name'
+    email: z.string().email(),
+    phone: z.string().min(1),
+    gender: z.string().min(1),
+    age: z.coerce.number().min(1),
+    address: z.string().min(1),
+    projectArea: z.string().min(1),
+  }),
+  responses: {
+    201: z.custom<typeof members.$inferSelect>(),
+    400: errorSchemas.validation,
+  }
+},
     updateStatus: {
       method: 'PATCH' as const,
       path: '/api/members/:id/status' as const,
       input: z.object({ status: z.enum(['pending', 'verified', 'blocked']) }),
       responses: {
-        200: z.custom<typeof members.$inferSelect>(),
-        404: errorSchemas.notFound,
-      }
+        200: z.object({
+        id: z.number(),
+        regNo: z.string(),
+        fullName: z.string(),
+        status: z.enum(['pending', 'verified', 'blocked']),
+        // Add other fields you want to show, but OMIT the generated flags
+      }),
+  404: errorSchemas.notFound,
+}
     }
   },
   admin: {
@@ -87,13 +107,32 @@ export const api = {
         })
       }
     },
-    donations: {
+   donations: {
+    create: {
+      method: 'POST' as const,
+      path: '/api/donations' as const,
+      input: z.object({
+        amount: z.coerce.number().positive(),
+        donorName: z.string().min(1),
+        panCardNumber: z.string().min(10).max(10).toUpperCase(),
+        paymentId: z.string().min(1),
+        details: z.string().min(1),
+        campaignId: z.number().positive(),
+        eightyGCertificateGenerated: z.boolean().optional(),
+      }),
+      responses: {
+        201: z.custom<typeof donations.$inferSelect>(),
+        400: errorSchemas.validation,
+      }
+    },
+    listAdmin: {
       method: 'GET' as const,
       path: '/api/admin/donations' as const,
       responses: {
         200: z.array(z.custom<typeof donations.$inferSelect>()),
       }
     }
+  },
   }
 };
 

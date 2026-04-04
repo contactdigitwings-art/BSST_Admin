@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useLocation } from "wouter";
-import { Mail, Lock, Heart, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, Heart, ArrowRight, Loader2, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
+  const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login } = useAuth();
+  const { login, register } = useAuth();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
@@ -18,12 +20,17 @@ export default function Login() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await login({ email, password });
-      toast({ title: "Welcome back!", description: "Successfully logged in." });
+      if (isRegister) {
+        await register({ email, password, name });
+        toast({ title: "Account created!", description: "Welcome to Trust Portal." });
+      } else {
+        await login({ email, password });
+        toast({ title: "Welcome back!", description: "Successfully logged in." });
+      }
       setLocation("/");
     } catch (err: any) {
       toast({
-        title: "Login Failed",
+        title: isRegister ? "Registration Failed" : "Login Failed",
         description: err.message,
         variant: "destructive",
       });
@@ -42,13 +49,32 @@ export default function Login() {
         <div className="bg-white/10 backdrop-blur-2xl border border-white/20 p-8 rounded-3xl shadow-2xl shadow-black/50">
           <div className="flex flex-col items-center mb-8 text-center">
             <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30 mb-6">
-              <Heart className="w-8 h-8 text-white" />
+              <img src="bhartilogo.jpg" alt="logo" className="rounded-2xl" />
             </div>
-            <h1 className="text-3xl font-display font-bold text-white mb-2">Trust Portal</h1>
-            <p className="text-indigo-200">Sign in to manage your membership</p>
+            <h1 className="text-3xl font-display font-bold text-white mb-2">{isRegister ? "Create Account" : "Trust Portal"}</h1>
+            <p className="text-indigo-200">{isRegister ? "Join our community" : "Sign in to manage your membership"}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            {isRegister && (
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-indigo-100 ml-1">Full Name</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <User className="h-5 w-5 text-indigo-300 group-focus-within:text-indigo-500 transition-colors" />
+                  </div>
+                  <Input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="pl-11 h-12 bg-white/5 border-white/10 text-white placeholder:text-indigo-300/50 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 rounded-xl"
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
             <div className="space-y-2">
               <label className="text-sm font-medium text-indigo-100 ml-1">Email Address</label>
               <div className="relative group">
@@ -92,10 +118,20 @@ export default function Login() {
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
                 <>
-                  Sign In <ArrowRight className="w-5 h-5 ml-2" />
+                  {isRegister ? "Create Account" : "Sign In"} <ArrowRight className="w-5 h-5 ml-2" />
                 </>
               )}
             </Button>
+
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => setIsRegister(!isRegister)}
+                className="text-indigo-200 hover:text-white transition-colors text-sm"
+              >
+                {isRegister ? "Already have an account? Sign in" : "Don't have an account? Create one"}
+              </button>
+            </div>
           </form>
 
           <div className="mt-8 pt-6 border-t border-white/10 text-sm text-center">

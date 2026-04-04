@@ -1,0 +1,168 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+[1G[0K12:16:52 PM [express] serving on port 5000
+12:17:04 PM [express] GET /api/me 401 in 2ms :: {"message":"Not authenticated"}
+12:17:05 PM [express] GET /api/me 401 in 1ms :: {"message":"Not authenticated"}
+12:18:04 PM [express] GET /api/me 401 in 1ms :: {"message":"Not authenticated"}
+12:21:38 PM [express] POST /api/login 200 in 14ms :: {"user":{"id":1,"email":"admin@gmail.com","password":"123456","role":"admin","name":"Admin User"}}
+12:21:38 PM [express] GET /api/members 304 in 3ms :: [{"id":2,"userId":null,"regNo":"NGO-2024-002","name":"Jane Smith","email":"jane@example.com","detail":"New Application","receipt":"RCPT-002","status":"verified","idCardGenerated":false,"appointmentLetterGenerated":false,"certificateGenerated":false,"createdAt":"2026-03-10T13:06:16.514Z"},{"id":3,"userId":4,"regNo":"NGO-1773224562638","name":"demo user","email":"demo@gmail.com","detail":"i want to join the community","receipt":null,"status":"verified","idCardGenerated":false,"appointmentLetterGenerated":false,"certificateGenerated":false,"createdAt":"2026-03-11T10:22:42.649Z"},{"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-10T13:06:16.510Z"},{"id":4,"userId":7,"regNo":"NGO-1773225482911","name":"demo2 user","email":"demo2@gmail.com","detail":"i want to care for people","receipt":null,"status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-11T10:38:02.924Z"}]
+12:21:39 PM [express] GET /api/admin/stats 200 in 88ms :: {"totalCampaigns":0,"totalMembers":4,"totalDonations":1700,"activeMembers":4}
+12:22:10 PM [express] GET /api/admin/donations 304 in 11ms :: [{"id":1,"amount":500,"donorName":"Alice Cooper","date":"2026-03-10T13:06:16.516Z"},{"id":2,"amount":1200,"donorName":"Bob Builder","date":"2026-03-10T13:06:16.516Z"}]
+12:22:15 PM [express] GET /api/campaigns 200 in 4ms :: []
+12:39:30 PM [express] GET /api/me 200 in 12ms :: {"user":{"id":1,"email":"admin@gmail.com","password":"123456","role":"admin","name":"Admin User"}}
+12:39:31 PM [express] GET /api/members 304 in 3ms :: [{"id":2,"userId":null,"regNo":"NGO-2024-002","name":"Jane Smith","email":"jane@example.com","detail":"New Application","receipt":"RCPT-002","status":"verified","idCardGenerated":false,"appointmentLetterGenerated":false,"certificateGenerated":false,"createdAt":"2026-03-10T13:06:16.514Z"},{"id":3,"userId":4,"regNo":"NGO-1773224562638","name":"demo user","email":"demo@gmail.com","detail":"i want to join the community","receipt":null,"status":"verified","idCardGenerated":false,"appointmentLetterGenerated":false,"certificateGenerated":false,"createdAt":"2026-03-11T10:22:42.649Z"},{"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-10T13:06:16.510Z"},{"id":4,"userId":7,"regNo":"NGO-1773225482911","name":"demo2 user","email":"demo2@gmail.com","detail":"i want to care for people","receipt":null,"status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-11T10:38:02.924Z"}]
+12:39:31 PM [express] GET /api/admin/stats 304 in 14ms :: {"totalCampaigns":0,"totalMembers":4,"totalDonations":1700,"activeMembers":4}
+12:39:35 PM [express] POST /api/logout 200 in 2ms :: {"message":"Logged out successfully"}
+12:39:35 PM [express] GET /api/admin/stats 304 in 3ms :: {"totalCampaigns":0,"totalMembers":4,"totalDonations":1700,"activeMembers":4}
+12:39:35 PM [express] GET /api/me 401 in 1ms :: {"message":"Not authenticated"}
+12:39:35 PM [express] GET /api/members 304 in 2ms :: [{"id":2,"userId":null,"regNo":"NGO-2024-002","name":"Jane Smith","email":"jane@example.com","detail":"New Application","receipt":"RCPT-002","status":"verified","idCardGenerated":false,"appointmentLetterGenerated":false,"certificateGenerated":false,"createdAt":"2026-03-10T13:06:16.514Z"},{"id":3,"userId":4,"regNo":"NGO-1773224562638","name":"demo user","email":"demo@gmail.com","detail":"i want to join the community","receipt":null,"status":"verified","idCardGenerated":false,"appointmentLetterGenerated":false,"certificateGenerated":false,"createdAt":"2026-03-11T10:22:42.649Z"},{"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-10T13:06:16.510Z"},{"id":4,"userId":7,"regNo":"NGO-1773225482911","name":"demo2 user","email":"demo2@gmail.com","detail":"i want to care for people","receipt":null,"status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-11T10:38:02.924Z"}]
+12:39:53 PM [express] POST /api/login 200 in 12ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+12:39:54 PM [express] GET /api/members/me 304 in 2ms :: {"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-10T13:06:16.510Z"}
+12:44:16 PM [express] GET /api/me 200 in 12ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+12:44:16 PM [express] GET /api/members/me 304 in 3ms :: {"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-10T13:06:16.510Z"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m12:45:43 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/DonateNow.tsx, /src/index.css[22m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m12:45:44 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/DonateNow.tsx, /src/index.css[22m [33m(x2)[39m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m12:45:45 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/DonateNow.tsx, /src/index.css[22m [33m(x3)[39m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m12:45:46 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/DonateNow.tsx, /src/index.css[22m [33m(x4)[39m

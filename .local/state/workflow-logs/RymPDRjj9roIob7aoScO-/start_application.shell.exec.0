@@ -1,0 +1,10 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+[1G[0K1:05:59 PM [express] serving on port 5000
+1:06:06 PM [express] GET /api/me 401 in 2ms :: {"message":"Not authenticated"}
+1:06:24 PM [express] POST /api/login 200 in 16ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+1:06:24 PM [express] GET /api/members/me 304 in 3ms :: {"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-10T13:06:16.510Z"}
+1:13:00 PM [express] GET /api/me 304 in 11ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+1:13:00 PM [express] GET /api/members/me 304 in 2ms :: {"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-10T13:06:16.510Z"}

@@ -1,0 +1,45 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+[1G[0K1:03:43 PM [express] serving on port 5000
+1:03:50 PM [express] GET /api/me 401 in 2ms :: {"message":"Not authenticated"}
+1:04:12 PM [express] POST /api/login 200 in 15ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+1:04:13 PM [express] GET /api/members/me 304 in 4ms :: {"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-10T13:06:16.510Z"}
+1:04:49 PM [express] GET /api/me 304 in 12ms :: {"user":{"id":2,"email":"user@gmail.com","password":"123456","role":"user","name":"John Doe"}}
+1:04:49 PM [express] GET /api/members/me 304 in 3ms :: {"id":1,"userId":2,"regNo":"NGO-2024-001","name":"John Doe","email":"user@gmail.com","detail":"Regular Member","receipt":"RCPT-001","status":"verified","idCardGenerated":true,"appointmentLetterGenerated":true,"certificateGenerated":true,"createdAt":"2026-03-10T13:06:16.510Z"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m1:05:52 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/AppointmentLetter.tsx, /src/index.css[22m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m1:05:53 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/AppointmentLetter.tsx, /src/index.css[22m [33m(x2)[39m

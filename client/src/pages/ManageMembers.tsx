@@ -28,7 +28,7 @@ export default function ManageMembers() {
   };
 
   const filteredMembers = members?.filter(m => 
-    m.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    m.fullName.toLowerCase().includes(searchTerm.toLowerCase()) || 
     m.regNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
     m.email.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
@@ -72,7 +72,7 @@ export default function ManageMembers() {
                   <th className="px-6 py-4">Reg No</th>
                   <th className="px-6 py-4">Name / Email</th>
                   <th className="px-6 py-4">Detail</th>
-                  <th className="px-6 py-4">Receipt</th>
+                  <th className="px-6 py-4">project Area</th>
                   <th className="px-6 py-4 text-right">Action</th>
                 </tr>
               </thead>
@@ -85,17 +85,11 @@ export default function ManageMembers() {
                       <td className="px-6 py-4 font-medium text-slate-500">{idx + 1}</td>
                       <td className="px-6 py-4 font-bold text-slate-900">{member.regNo}</td>
                       <td className="px-6 py-4">
-                        <div className="font-semibold text-slate-900">{member.name}</div>
+                        <div className="font-semibold text-slate-900">{member.fullName}</div>
                         <div className="text-sm text-slate-500">{member.email}</div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-600 max-w-[200px] truncate">{member.detail}</td>
-                      <td className="px-6 py-4">
-                        {member.receipt ? (
-                          <a href={member.receipt} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-sm font-medium">View Receipt</a>
-                        ) : (
-                          <span className="text-slate-400 text-sm">None</span>
-                        )}
-                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-600 max-w-[200px] truncate">{member.projectArea}</td>
+                      
                       <td className="px-6 py-4 text-right space-x-2">
                         <Button size="sm" variant="outline" className="rounded-lg h-8" data-testid={`button-view-${member.id}`}>
                           <Eye className="w-4 h-4 mr-1" /> View
@@ -146,6 +140,7 @@ export default function ManageMembers() {
                   <th className="px-6 py-4">Reg No</th>
                   <th className="px-6 py-4">Name / Email</th>
                   <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4">Project Area</th>
                   <th className="px-6 py-4 text-right">Action</th>
                 </tr>
               </thead>
@@ -157,7 +152,7 @@ export default function ManageMembers() {
                     <tr key={member.id} className="hover:bg-slate-50/50 transition-colors">
                       <td className="px-6 py-4 font-bold text-slate-900">{member.regNo}</td>
                       <td className="px-6 py-4">
-                        <div className="font-semibold text-slate-900">{member.name}</div>
+                        <div className="font-semibold text-slate-900">{member.fullName}</div>
                         <div className="text-sm text-slate-500">{member.email}</div>
                       </td>
                       <td className="px-6 py-4">
@@ -168,10 +163,8 @@ export default function ManageMembers() {
                           {member.status.toUpperCase()}
                         </span>
                       </td>
+                      <td className="px-6 py-4 font-bold text-slate-900">{member.projectArea}</td>
                       <td className="px-6 py-4 text-right space-x-2">
-                        <Button size="sm" variant="outline" className="rounded-lg h-8" data-testid={`button-details-${member.id}`}>
-                          <Eye className="w-4 h-4 mr-1" /> Details
-                        </Button>
                         {member.status === 'verified' ? (
                            <Button 
                              size="sm" 

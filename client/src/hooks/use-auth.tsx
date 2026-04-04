@@ -10,6 +10,7 @@ interface AuthContextType {
   isLoading: boolean;
   error: Error | null;
   login: ReturnType<typeof useLoginMutation>["mutateAsync"];
+  register: ReturnType<typeof useRegisterMutation>["mutateAsync"];
   logout: ReturnType<typeof useLogoutMutation>["mutateAsync"];
 }
 
@@ -30,6 +31,28 @@ function useLoginMutation() {
         throw new Error("Failed to login");
       }
       return api.auth.login.responses[200].parse(await res.json());
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData([api.auth.me.path], data);
+    },
+  });
+}
+
+function useRegisterMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (credentials: z.infer<typeof api.auth.register.input>) => {
+      const res = await fetch(api.auth.register.path, {
+        method: api.auth.register.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+        credentials: "include",
+      });
+      if (!res.ok) {
+        if (res.status === 400) throw new Error("User already exists or invalid data");
+        throw new Error("Failed to register");
+      }
+      return api.auth.register.responses[201].parse(await res.json());
     },
     onSuccess: (data) => {
       queryClient.setQueryData([api.auth.me.path], data);
@@ -69,6 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const loginMutation = useLoginMutation();
+  const registerMutation = useRegisterMutation();
   const logoutMutation = useLogoutMutation();
 
   const value = {
@@ -76,6 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isLoading,
     error: error as Error | null,
     login: loginMutation.mutateAsync,
+    register: registerMutation.mutateAsync,
     logout: logoutMutation.mutateAsync,
   };
 

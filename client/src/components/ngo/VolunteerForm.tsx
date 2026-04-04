@@ -20,8 +20,6 @@ export default function VolunteerForm({ onSuccess }: { onSuccess?: () => void })
     const address = fd.get('address') as string;
     const project_area = fd.get('project_area') as string;
 
-    const detail = `Phone: ${phone} | Gender: ${gender} | Age: ${age} | Address: ${address} | Area: ${project_area}`;
-
     try {
       const response = await fetch('/api/members/apply', {
         method: 'POST',
@@ -30,8 +28,11 @@ export default function VolunteerForm({ onSuccess }: { onSuccess?: () => void })
         body: JSON.stringify({
           name: full_name,
           email,
-          detail,
-          receipt: null,
+          phone,
+          gender,
+          age: parseInt(age),
+          address,
+          projectArea: project_area,
         }),
       });
 
