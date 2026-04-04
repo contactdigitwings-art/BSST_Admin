@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 export function serveStatic(app: Express) {
   // We go up one level (..) because this file is in 'server/' 
   // but the 'public' folder is inside 'dist/' or the root
-  const distPath = path.resolve(__dirname, "..", "public");
+  const distPath = path.resolve(__dirname, "..","...","dist", "public");
   
   if (!fs.existsSync(distPath)) {
     throw new Error(
