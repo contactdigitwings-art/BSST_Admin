@@ -13,17 +13,8 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  app.get("(.*)", (req, res) => {
-  // If the request is for an API, don't send index.html
-  if (req.path.startsWith('/api')) return;
-
-  const distPath = path.resolve(process.cwd(), "dist", "public");
-  const indexPath = path.resolve(distPath, "index.html");
-  
-  if (fs.existsSync(indexPath)) {
-    res.sendFile(indexPath);
-  } else {
-    res.status(404).send("Frontend files not found.");
-  }
+  // fall through to index.html if the file doesn't exist
+ app.get('/{*path}', (_req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
 });
 }
