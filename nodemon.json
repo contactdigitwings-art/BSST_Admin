@@ -1,0 +1,8 @@
+{
+  "watch": ["server", "shared", "client/src"],
+  "ext": "ts,tsx,js,json",
+  "exec": "cross-env NODE_ENV=development tsx --env-file=.env server/index.ts",
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
