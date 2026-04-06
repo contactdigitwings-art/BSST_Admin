@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "wouter";
 
 export default function ScrollToTop() {
   const [location] = useLocation();
@@ -7,7 +7,7 @@ export default function ScrollToTop() {
   useEffect(() => {
     // Instantly scroll to top whenever the path changes
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [location]);
 
   return null;
 }

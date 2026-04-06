@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import VolunteerForm from '../components/VolunteerForm';
+import VolunteerForm from '../components/ngo/VolunteerForm';
 import RegisterModal from '../components/ngo/RegisterModal';
 import { useAuth } from '../hooks/use-auth';
 

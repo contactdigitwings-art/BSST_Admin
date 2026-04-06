@@ -234,9 +234,8 @@ export default function AppointmentLetter() {
   }
 
   const area = (() => {
-    const detail = member?.detail || "";
-    const m = detail.match(/Area:\s*([^|]+)/);
-    return m ? m[1].trim() : "Volunteer / Member";
+    const detail = member?.projectArea || "";
+    return detail || "Volunteer / Member";
   })();
 
   return (
@@ -298,7 +297,7 @@ export default function AppointmentLetter() {
                   Job Offer / Appointment Letter
                 </h3>
 
-                <p className="font-bold text-xs mb-3">Mr/Mrs/Ms {member.name},</p>
+                <p className="font-bold text-xs mb-3">Mr/Mrs/Ms {member.fullName},</p>
 
                 <div className="space-y-2.5 text-[11px] text-gray-800 text-justify leading-relaxed">
                   <p>

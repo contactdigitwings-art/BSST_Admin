@@ -9,9 +9,9 @@ import {
   Play, Pause, Volume2, VolumeX, Landmark, ShieldCheck,
   Globe, FileText, X, Download
 } from 'lucide-react';
-import HeroCarousel from '../components/HeroCarousel';
+import HeroCarousel from '../components/ngo/HeroCarousel';
 import { HeartPulse, Building2, Building } from 'lucide-react';
-import VolunteerModal from '../components/VolunteerModal';
+import VolunteerModal from '../components/ngo/VolunteerModal';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -94,7 +94,9 @@ export default function Home() {
 
   const handleBlog = (serviceData: any) => {
     const { icon, ...serializableService } = serviceData;
-    navigate('/blog', { state: { blog: serializableService } });
+    // Store blog data in sessionStorage since wouter doesn't support state
+    sessionStorage.setItem('blogData', JSON.stringify(serializableService));
+    navigate('/blog');
   };
 
   return (

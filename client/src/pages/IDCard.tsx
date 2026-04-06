@@ -29,7 +29,7 @@ export default function IDCard() {
       ctx.fillText("NGO ID CARD", 30, 50);
       
       ctx.font = "bold 18px Arial";
-      ctx.fillText(member?.name || "", 30, 100);
+      ctx.fillText(member?.fullName || "", 30, 100);
       
       ctx.font = "14px Arial";
       ctx.fillStyle = "#e0e0e0";
@@ -83,7 +83,7 @@ export default function IDCard() {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm opacity-80">Full Name</p>
-                  <p className="text-2xl font-bold">{member.name}</p>
+                  <p className="text-2xl font-bold">{member.fullName}</p>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">

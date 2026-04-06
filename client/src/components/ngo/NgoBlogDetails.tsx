@@ -5,9 +5,10 @@ import { ArrowLeft, Calendar, User } from 'lucide-react';
 export default function BlogDetails() {
   const [location] = useLocation();
   const [, navigate] = useLocation();
-  
-  // Extract the 'blog' object from location.state
-  const { blog } = location.state || {};
+
+  // Extract the 'blog' object from sessionStorage (since wouter doesn't support state)
+  const blogData = sessionStorage.getItem('blogData');
+  const blog = blogData ? JSON.parse(blogData) : null;
 
   // If someone tries to access /blog directly without clicking a card
   if (!blog) {
