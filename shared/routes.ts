@@ -81,13 +81,17 @@ apply: {
     updateStatus: {
       method: 'PATCH' as const,
       path: '/api/members/:id/status' as const,
-      input: z.object({ status: z.enum(['pending', 'verified', 'blocked']) }),
+      input: z.object({ 
+        status: z.enum(['pending', 'verified', 'blocked']),
+        position: z.string().optional()
+      }),
       responses: {
         200: z.object({
         id: z.number(),
         regNo: z.string(),
         fullName: z.string(),
         status: z.enum(['pending', 'verified', 'blocked']),
+        position: z.string(),
         // Add other fields you want to show, but OMIT the generated flags
       }),
   404: errorSchemas.notFound,

@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { STATUS_CONFIG } from "./STATUS_CONFIG";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 
 export default function AdminDashboard() {
   const { data: stats, isLoading: statsLoading } = useAdminStats();
@@ -16,6 +18,9 @@ export default function AdminDashboard() {
   const updateStatus = useUpdateMemberStatus();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
+  const [verifyModalOpen, setVerifyModalOpen] = useState(false);
+  const [selectedMember, setSelectedMember] = useState<any>(null);
+  const [memberPosition, setMemberPosition] = useState("");
 
   if (statsLoading || membersLoading) {
     return (
@@ -25,12 +30,27 @@ export default function AdminDashboard() {
     );
   }
 
-  const handleStatusChange = async (id: number, status: 'verified' | 'blocked') => {
+  const handleStatusChange = async (id: number, status: 'verified' | 'blocked', position?: string) => {
     try {
-      await updateStatus.mutateAsync({ id, status });
+      await updateStatus.mutateAsync({ id, status, position });
       toast({ title: "Status Updated", description: `Member is now ${status}.` });
     } catch (error) {
       toast({ title: "Error", description: "Update failed", variant: "destructive" });
+    }
+  };
+
+  const handleVerifyClick = (member: any) => {
+    setSelectedMember(member);
+    setMemberPosition(member.position || "member"); // Default to current position or "member"
+    setVerifyModalOpen(true);
+  };
+
+  const handleVerifyConfirm = () => {
+    if (selectedMember) {
+      handleStatusChange(selectedMember.id, 'verified', memberPosition || "member");
+      setVerifyModalOpen(false);
+      setSelectedMember(null);
+      setMemberPosition("");
     }
   };
 
@@ -83,7 +103,7 @@ export default function AdminDashboard() {
                     <Button 
                       size="sm" 
                       className="bg-emerald-600 hover:bg-emerald-700 text-white"
-                      onClick={() => handleStatusChange(member.id, 'verified')}
+                      onClick={() => handleVerifyClick(member)}
                     >
                       Verify
                     </Button>
@@ -152,6 +172,34 @@ export default function AdminDashboard() {
           </table>
         </CardContent>
       </Card>
+
+      <Dialog open={verifyModalOpen} onOpenChange={setVerifyModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Verify Member</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p>Verifying: <strong>{selectedMember?.fullName}</strong></p>
+            <div>
+              <Label htmlFor="position">Position/Role</Label>
+              <Input
+                id="position"
+                value={memberPosition}
+                onChange={(e) => setMemberPosition(e.target.value)}
+                placeholder="Enter member position (default: member)"
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button variant="outline" onClick={() => setVerifyModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleVerifyConfirm}>
+                Verify
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

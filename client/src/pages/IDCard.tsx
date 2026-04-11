@@ -34,7 +34,8 @@ export default function IDCard() {
       ctx.font = "14px Arial";
       ctx.fillStyle = "#e0e0e0";
       ctx.fillText(`Reg No: ${member?.regNo || ""}`, 30, 140);
-      ctx.fillText(`Email: ${member?.email || ""}`, 30, 170);
+      ctx.fillText(`Position: ${member?.position || ""}`, 30, 160);
+      ctx.fillText(`Email: ${member?.email || ""}`, 30, 180);
       ctx.fillText(`Status: ${member?.status || ""}`, 30, 200);
       
       const link = document.createElement("a");
@@ -92,8 +93,8 @@ export default function IDCard() {
                     <p className="text-lg font-bold">{member.regNo}</p>
                   </div>
                   <div>
-                    <p className="text-sm opacity-80">Status</p>
-                    <p className="text-lg font-bold uppercase">{member.status}</p>
+                    <p className="text-sm opacity-80">Position</p>
+                    <p className="text-lg font-bold uppercase">{member.position}</p>
                   </div>
                 </div>
                 

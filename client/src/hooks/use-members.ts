@@ -27,12 +27,12 @@ export function useMyMember() {
 export function useUpdateMemberStatus() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, status }: { id: number; status: 'pending' | 'verified' | 'blocked' }) => {
+    mutationFn: async ({ id, status, position }: { id: number; status: 'pending' | 'verified' | 'blocked'; position?: string }) => {
       const url = buildUrl(api.members.updateStatus.path, { id });
       const res = await fetch(url, {
         method: api.members.updateStatus.method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status, position }),
       });
       if (!res.ok) throw new Error("Failed to update status");
       return api.members.updateStatus.responses[200].parse(await res.json());

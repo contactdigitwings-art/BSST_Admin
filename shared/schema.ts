@@ -13,8 +13,9 @@ export const users = pgTable("users", {
 export const members = pgTable("members", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").references(() => users.id),
-  regNo: text("reg_no").notNull(), // Keep as required
+  regNo: text("reg_no").default("member"), // Keep as required
   fullName: text("full_name").notNull(),
+  position: text("position").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),
   gender: text("gender").notNull(), // 'Male' or 'Female'

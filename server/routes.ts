@@ -105,6 +105,7 @@ app.post(api.members.apply.path, async (req, res) => {
     const member = await storage.createMember({
       userId,
       fullName: input.name,  
+      position: "member", // Default position
       email: input.email,
       phone: input.phone,
       gender: input.gender,
@@ -134,9 +135,14 @@ app.post(api.members.apply.path, async (req, res) => {
 app.patch(api.members.updateStatus.path, async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const { status } = api.members.updateStatus.input.parse(req.body);
+    const { status, position } = api.members.updateStatus.input.parse(req.body);
 
     const updateData: any = { status };
+    
+    // If position is provided, update it
+    if (position !== undefined) {
+      updateData.position = position;
+    }
     
     // If admin verifies, we can automatically enable card generation
     if (status === 'verified') {

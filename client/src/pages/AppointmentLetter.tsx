@@ -120,11 +120,11 @@ function buildLetterHTML(member: any) {
 
     <div class="doc-title">Job Offer / Appointment Letter</div>
 
-    <p class="salutation"><strong>Mr/Mrs/Ms ${member?.name},</strong></p>
+    <p class="salutation"><strong>Mr/Mrs/Ms ${member?.fullName},</strong></p>
 
     <div class="body-text">
       <p>
-        We are pleased to offer you the position of <strong>${area}</strong> at
+        We are pleased to offer you the position of <strong>${member?.position || 'Member'}</strong> at
         <strong>BHARTI SEWA SADAN TRUST</strong>. This refers to your application
         and subsequent review with us. We believe your skills and commitment make
         you an excellent fit and a valuable addition to our organization. We look
