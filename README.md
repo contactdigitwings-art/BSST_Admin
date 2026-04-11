@@ -91,8 +91,7 @@ Ngo-System/
 ### Installation
 
 1. Clone the repository
-```bash
-git clone https://github.com/yourusername/Ngo-System.git
+https://github.com/contactdigitwings-art/BSST_Admin.git
 cd Ngo-System
 npm install
 cp .env.example .env
