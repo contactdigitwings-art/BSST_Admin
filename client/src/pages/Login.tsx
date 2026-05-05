@@ -134,7 +134,7 @@ export default function Login() {
             </div>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-white/10 text-sm text-center">
+          {/* <div className="mt-8 pt-6 border-t border-white/10 text-sm text-center">
             <p className="text-indigo-200 mb-2 font-medium">Test Credentials</p>
             <div className="grid grid-cols-2 gap-4 text-xs">
               <div className="bg-black/20 p-3 rounded-lg border border-white/5">
@@ -148,7 +148,7 @@ export default function Login() {
                 <span className="text-white/60">123456</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
