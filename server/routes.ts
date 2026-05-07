@@ -307,60 +307,60 @@ app.post('/api/donations', async (req, res) => {
     });
   });
 
-  try {
-    await seedDatabase();
-    console.log("✅ Database seeded");
-  } catch (err) {
-    console.error("Seed failed (ignored):", err);
-  }
+  // try {
+  //   await seedDatabase();
+  //   console.log("✅ Database seeded");
+  // } catch (err) {
+  //   console.error("Seed failed (ignored):", err);
+  // }
   return httpServer;
 }
 
-async function seedDatabase() {
-  const { db } = await import("./db");
-  const { users, members, donations, campaigns } = await import("@shared/schema");
+// async function seedDatabase() {
+//   const { db } = await import("./db");
+//   const { users, members, donations, campaigns } = await import("@shared/schema");
 
-  const existingUsers = await db.select().from(users);
-  if (existingUsers.length === 0) {
-    const adminUser = await storage.createUser({ 
-      email: "admin@gmail.com", 
-      password: "123456", 
-      name: "Admin User", 
-      role: "admin" 
-    });
-    const regularUser = await storage.createUser({ 
-      email: "user@gmail.com", 
-      password: "123456", 
-      name: "John Doe", 
-      role: "user" 
-    });
+//   const existingUsers = await db.select().from(users);
+//   if (existingUsers.length === 0) {
+//     const adminUser = await storage.createUser({ 
+//       email: "admin@gmail.com", 
+//       password: "123456", 
+//       name: "Admin User", 
+//       role: "admin" 
+//     });
+//     const regularUser = await storage.createUser({ 
+//       email: "user@gmail.com", 
+//       password: "123456", 
+//       name: "John Doe", 
+//       role: "user" 
+//     });
 
-    await db.insert(members).values([
-      { 
-        userId: regularUser.id, 
-        regNo: "BSST-2024-001", 
-        fullName: "John Doe", 
-        email: "user@gmail.com", 
-        phone: "9876543210",
-        gender: "Male",
-        age: 30,
-        address: "123 Street, Bihar",
-        projectArea: "Education",
-        date: new Date().toLocaleDateString(),
-        status: "verified", 
-        idCardGenerated: true, 
-        appointmentLetterGenerated: true 
-      },
-    ]);
-    await db.insert(donations).values([
-      { amount: 5000, donorName: "Alice Cooper" },
-      { amount: 12000, donorName: "Bob Builder" },
-    ]);
+//     await db.insert(members).values([
+//       { 
+//         userId: regularUser.id, 
+//         regNo: "BSST-2024-001", 
+//         fullName: "John Doe", 
+//         email: "user@gmail.com", 
+//         phone: "9876543210",
+//         gender: "Male",
+//         age: 30,
+//         address: "123 Street, Bihar",
+//         projectArea: "Education",
+//         date: new Date().toLocaleDateString(),
+//         status: "verified", 
+//         idCardGenerated: true, 
+//         appointmentLetterGenerated: true 
+//       },
+//     ]);
+//     await db.insert(donations).values([
+//       { amount: 5000, donorName: "Alice Cooper" },
+//       { amount: 12000, donorName: "Bob Builder" },
+//     ]);
 
-    await db.insert(campaigns).values([
-      { title: "Rural Healthcare Drive", description: "Providing free medical check-ups and medicines to 70+ villages in Araria district.", category: "healthcare", goalAmount: 500000, raisedAmount: 320000, status: "active" },
-      { title: "Education for All", description: "Setting up digital learning centres and distributing textbooks to underprivileged children.", category: "education", goalAmount: 300000, raisedAmount: 180000, status: "active" },
-      { title: "Clean Water Initiative", description: "Installing water purification systems and sanitation facilities in rural communities.", category: "welfare", goalAmount: 200000, raisedAmount: 200000, status: "completed" },
-    ]);
-  }
-}
+//     await db.insert(campaigns).values([
+//       { title: "Rural Healthcare Drive", description: "Providing free medical check-ups and medicines to 70+ villages in Araria district.", category: "healthcare", goalAmount: 500000, raisedAmount: 320000, status: "active" },
+//       { title: "Education for All", description: "Setting up digital learning centres and distributing textbooks to underprivileged children.", category: "education", goalAmount: 300000, raisedAmount: 180000, status: "active" },
+//       { title: "Clean Water Initiative", description: "Installing water purification systems and sanitation facilities in rural communities.", category: "welfare", goalAmount: 200000, raisedAmount: 200000, status: "completed" },
+//     ]);
+//   }
+// }

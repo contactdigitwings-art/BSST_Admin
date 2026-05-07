@@ -58,7 +58,7 @@ export default function DonateNow() {
 
     // 2. Razorpay Configuration
     const options = {
-      key: process.env.RAZORPAY_KEY, 
+      key: import.meta.env.VITE_RAZORPAY_KEY, 
       amount: numericAmount * 100, // Amount in paise
       currency: "INR",
       name: "Bharti Sewa Sadan Trust",
